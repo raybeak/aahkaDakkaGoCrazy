@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Developer Portfolio - Clean Minimalist & Rogue (1980)</title>
+  <title>Developer Portfolio - Clean Minimalist & Admin Dashboard</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Personal Portfolio Web featuring Minimalist UI, Terminal Motifs, Monospace Typography, and 1980 ASCII Rogue Easter Eggs.">
-  <meta name="keywords" content="Portfolio, Full Stack Developer, Minimalist UI, WebAssembly, ASCII Rogue, Terminal">
-  <meta name="author" content="Developer">
+  <meta name="description" content="Personal Portfolio Web featuring Minimalist UI, Terminal Motifs, Monospace Typography, and Client-Side Admin Dashboard.">
+  <meta name="keywords" content="Portfolio, Full Stack Developer, Minimalist UI, Admin Dashboard, WebAssembly, ASCII Rogue">
 
   <!-- Google Fonts (Inter, JetBrains Mono, VT323) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +24,10 @@
   <link rel="stylesheet" href="./src/components/RogueModal/RogueModal.css">
   <link rel="stylesheet" href="./src/components/Header/Header.css">
   <link rel="stylesheet" href="./src/components/Hero/Hero.css">
+  <link rel="stylesheet" href="./src/components/Admin/AdminLoginModal.css">
+  <link rel="stylesheet" href="./src/components/Admin/AdminDashboard.css">
 
   <style>
-    /* --------------------------------------------------
-     * PRD 및 디자인 가이드 준수 글로벌 전용 스타일
-     * -------------------------------------------------- */
     html {
       scroll-behavior: smooth;
     }
@@ -61,33 +59,6 @@
       font-family: var(--font-mono);
     }
 
-    /* F-2: Owner Editable Section Styles */
-    .owner-edit-container {
-      background-color: var(--bg-surface);
-      border: 1px dashed var(--border-active);
-      border-radius: 12px;
-      padding: var(--space-6);
-      margin-top: var(--space-4);
-    }
-
-    .owner-textarea {
-      width: 100%;
-      min-height: 140px;
-      background-color: var(--bg-primary);
-      border: 1px solid var(--border-default);
-      border-radius: 8px;
-      padding: var(--space-4);
-      color: var(--text-primary);
-      font-family: var(--font-mono);
-      font-size: var(--text-sm);
-      resize: vertical;
-      outline: none;
-    }
-
-    .owner-textarea:focus {
-      border-color: var(--accent-primary);
-    }
-
     /* About Section Content */
     .about-text {
       font-size: var(--text-base);
@@ -117,7 +88,7 @@
       margin-bottom: var(--space-3);
     }
 
-    /* Contact Buttons & Info */
+    /* Contact Card */
     .contact-card {
       background-color: var(--bg-surface);
       border: 1px solid var(--border-default);
@@ -166,7 +137,7 @@
 </head>
 <body id="app-body">
 
-  <!-- F-1 헤더 네비게이션 컴포넌트 -->
+  <!-- F-1 / Header Component -->
   <header class="site-header">
     <div class="site-header-container">
       <a href="#" class="site-logo">
@@ -184,12 +155,12 @@
           </ul>
         </nav>
 
-        <!-- F-2: Owner Edit Mode Toggle -->
-        <button class="btn btn-secondary btn-sm" id="owner-toggle-btn" title="Toggle Owner Editing Mode">
-          🔒 Owner Edit
+        <!-- F-2 Admin Login / Dashboard Trigger -->
+        <button class="btn btn-secondary btn-sm" id="admin-trigger-btn" title="Open Admin Dashboard">
+          🔑 Admin Login
         </button>
 
-        <!-- F-3: Command Palette Button -->
+        <!-- F-3 Command Palette Button -->
         <button class="cmd-trigger-btn" id="open-cmd-btn" title="Quick Command Search">
           <span>Search</span>
           <span class="badge badge-hotkey">⌘K</span>
@@ -201,121 +172,51 @@
   <!-- 메인 레이아웃 컨테이너 -->
   <main class="container">
     
-    <!-- F-1 / Hero Section -->
+    <!-- Hero Section -->
     <section class="hero-section">
       <div class="terminal-prompt-container">
         <span class="terminal-symbol">$</span>
         <span class="terminal-path">whoami</span>
         <span class="terminal-command">cat identity.txt</span>
-        <span class="terminal-cursor-block" id="hero-cursor"></span>
+        <span class="terminal-cursor-block"></span>
       </div>
 
-      <h1 class="hero-title" id="hero-heading">
+      <h1 class="hero-title">
         Crafting Minimalist & Performant Web Systems
       </h1>
 
       <p class="hero-subtitle">
-        단 하나의 페이지에 본인의 작업물과 기술적 열정을 담아내는 포트폴리오입니다. Clean UI 기반에 은은한 Terminal 감성과 1980 Rogue 이스터에그를 결합했습니다.
+        단 하나의 페이지에 본인의 작업물과 기술적 열정을 담아내는 포트폴리오입니다. Clean UI 기반에 관리자 페이지와 1980 Rogue 이스터에그를 결합했습니다.
       </p>
 
       <div class="hero-cta-group">
         <a href="#projects" class="btn btn-primary btn-lg">View Projects</a>
         <a href="#contact" class="btn btn-secondary btn-lg">Get in Touch</a>
         <button class="btn btn-retro btn-md" id="open-rogue-btn">🎮 ROGUE 1980</button>
-        <button class="btn btn-ghost btn-sm" id="glitch-toggle-btn" title="Toggle Madness Glitch Effect">⚡ Glitch Mode</button>
       </div>
     </section>
 
-    <!-- F-1 & F-2 / About & Owner Editable Section -->
+    <!-- About Section -->
     <section id="about" class="section">
-      <h2 class="section-title">About & Work Description</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 class="section-title" style="margin-bottom: 0;">About & Work Description</h2>
+        <span class="badge badge-terminal" id="admin-session-badge" style="display: none;">🔑 Admin Logged In</span>
+      </div>
       
-      <!-- 소개 글 표시 영역 -->
-      <div class="about-text" id="about-display-text">
-시스템 프로그래밍과 웹 아키텍처의 경계에서 빠르고 가벼운 웹 경험을 만드는 엔지니어입니다. 
-불필요한 라이브러리 의존성을 최소화하고, 단결하면서도 강렬한 사용자 경험(UX)을 추구합니다.
-
-• Major Focus: WebAssembly, High-Performance Front-end, Systems Architecture
-• Core Values: Simplicity First, Code Hygiene, High Density Information
-      </div>
-
-      <!-- F-2: Owner 전용 텍스트 편집기 (소유자 전용 모드 활성화 시 표시) -->
-      <div class="owner-edit-container" id="owner-edit-panel" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <span class="badge badge-terminal">🔒 Owner Editable Mode Active</span>
-          <span style="font-size: 12px; color: var(--text-muted);">Changes save to LocalStorage automatically</span>
-        </div>
-        <textarea class="owner-textarea" id="owner-textarea" placeholder="소개 글 및 Work Description을 작성하세요..."></textarea>
-        <div style="margin-top: 12px; display: flex; gap: 8px;">
-          <button class="btn btn-primary btn-sm" id="owner-save-btn">Save Changes</button>
-          <button class="btn btn-secondary btn-sm" id="owner-reset-btn">Reset Default</button>
-        </div>
-      </div>
+      <!-- 동적 자기소개 표시 영역 -->
+      <div class="about-text" id="about-display-text"></div>
     </section>
 
-    <!-- F-1 / Projects & Works Section -->
+    <!-- Projects Section -->
     <section id="projects" class="section">
       <h2 class="section-title">Featured Projects & Works</h2>
       
-      <div class="grid-2col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
-        
-        <!-- Project 1 -->
-        <div class="project-card">
-          <div>
-            <div class="project-card-header">
-              <h3 class="project-card-title">WASM Rogue Engine (1980)</h3>
-              <a href="https://github.com" target="_blank" rel="noopener" class="project-card-link-icon" title="View Source">↗</a>
-            </div>
-            <p class="project-card-description">
-              1980년 원작 Rogue 게임을 WebAssembly 및 Canvas 기술로 브라우저 상에 포팅한 미니 ASCII 던전 엔진입니다.
-            </p>
-          </div>
-          <div class="project-card-tags">
-            <span class="badge badge-tech">Rust</span>
-            <span class="badge badge-tech">WASM</span>
-            <span class="badge badge-tech">Canvas API</span>
-          </div>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="project-card">
-          <div>
-            <div class="project-card-header">
-              <h3 class="project-card-title">Minimal Portfolio UI Kit</h3>
-              <a href="https://github.com" target="_blank" rel="noopener" class="project-card-link-icon" title="View Source">↗</a>
-            </div>
-            <p class="project-card-description">
-              Simplicity First 원칙 기반의 8pt 여백 시스템과 터미널 커서, 핫키 검색창이 적용된 초간결 포트폴리오 템플릿입니다.
-            </p>
-          </div>
-          <div class="project-card-tags">
-            <span class="badge badge-tech">TypeScript</span>
-            <span class="badge badge-tech">Next.js</span>
-            <span class="badge badge-tech">CSS Tokens</span>
-          </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="project-card">
-          <div>
-            <div class="project-card-header">
-              <h3 class="project-card-title">High-Performance State Engine</h3>
-              <a href="https://github.com" target="_blank" rel="noopener" class="project-card-link-icon" title="View Source">↗</a>
-            </div>
-            <p class="project-card-description">
-              Zero-dependency 모듈 구조로 초당 60fps 상태 렌더링을 보장하는 초경량 클라이언트 바인딩 라이브러리입니다.
-            </p>
-          </div>
-          <div class="project-card-tags">
-            <span class="badge badge-tech">JavaScript</span>
-            <span class="badge badge-tech">Web Components</span>
-          </div>
-        </div>
-
+      <!-- 동적 프로젝트 카드 그리드 영역 -->
+      <div id="projects-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
       </div>
     </section>
 
-    <!-- F-1 / Interests & Tech Stack Section -->
+    <!-- Interests Section -->
     <section id="interests" class="section">
       <h2 class="section-title">Interests & Tech Stack</h2>
       
@@ -353,7 +254,7 @@
       </div>
     </section>
 
-    <!-- F-1 / Contact Section -->
+    <!-- Contact Section -->
     <section id="contact" class="section" style="border-bottom: none;">
       <h2 class="section-title">Contact & Social Links</h2>
       
@@ -379,17 +280,16 @@
 
   </main>
 
-  <!-- 푸터 -->
   <footer class="footer">
-    <p>© 2026 Developer Portfolio. Built with Simplicity First & Rogue (1980) Easter Eggs.</p>
+    <p>© 2026 Developer Portfolio. Built with Admin Dashboard & Rogue (1980) Easter Eggs.</p>
   </footer>
 
-  <!-- F-3: Command Palette (`Cmd + K`) Modal -->
+  <!-- Command Palette Modal -->
   <div class="cmd-palette-backdrop" id="cmd-modal" style="display: none;">
     <div class="cmd-palette-container">
       <div class="cmd-palette-input-wrapper">
         <span class="cmd-palette-prompt">&gt;</span>
-        <input type="text" class="cmd-palette-input" id="cmd-input" placeholder="명령어를 입력하세요... (예: rogue)" autofocus>
+        <input type="text" class="cmd-palette-input" id="cmd-input" placeholder="명령어를 입력하세요... (예: admin, rogue)" autofocus>
         <span class="badge badge-hotkey" id="close-cmd-btn" style="cursor: pointer;">ESC 닫기</span>
       </div>
       <ul class="cmd-palette-list" id="cmd-list">
@@ -401,152 +301,402 @@
           <span>자기소개 (About) 섹션 이동</span>
           <span class="badge badge-tech">G A</span>
         </li>
-        <li class="cmd-palette-item" data-action="nav-contact">
-          <span>연락처 (Contact) 섹션 이동</span>
-          <span class="badge badge-tech">G C</span>
+        <li class="cmd-palette-item" data-action="trigger-admin">
+          <span>🔑 관리자 대시보드 (Admin Page) 열기</span>
+          <span class="badge badge-tech">ADMIN</span>
         </li>
         <li class="cmd-palette-item" data-action="trigger-rogue">
           <span>🎮 1980 ASCII Rogue 이스터에그 모드 실행</span>
           <span class="badge badge-tech">ROGUE</span>
         </li>
-        <li class="cmd-palette-item" data-action="trigger-glitch">
-          <span>⚡ Madness Glitch 인터랙션 토글</span>
-          <span class="badge badge-tech">GLITCH</span>
-        </li>
       </ul>
       <div class="cmd-palette-footer">
         <span>Press ESC to exit</span>
-        <span>Type 'rogue' for 1980 game mode</span>
+        <span>Type 'admin' for Admin Page</span>
       </div>
     </div>
   </div>
 
-  <!-- F-3: Interactive 1980 ASCII Rogue Easter Egg Modal -->
+  <!-- 1980 ASCII Rogue Modal -->
   <div class="rogue-modal-fullscreen rogue-crt-overlay" id="rogue-modal" style="display: none;">
     <div class="rogue-header">
       <span>ROGUE (1980) ASCII DUNGEON EASTER EGG</span>
       <span style="font-size: 14px; color: var(--accent-secondary);">Move: Arrow Keys or HJKL | Esc: Exit</span>
       <button class="btn btn-retro btn-sm" id="close-rogue-btn">EXIT [ESC]</button>
     </div>
-
-    <!-- 대화형 ASCII 던전 화면 -->
     <div class="rogue-viewport">
       <pre class="rogue-ascii-screen" id="rogue-ascii-grid"></pre>
     </div>
-
-    <!-- 플레이어 실시간 스탯바 -->
     <div class="rogue-status-bar">
-      <span>Level: <strong id="rogue-lvl">1</strong></span>
-      <span>HP: <strong id="rogue-hp">12/12</strong></span>
+      <span>Level: 1</span>
+      <span>HP: 12/12</span>
       <span>Gold: <strong id="rogue-gold">100</strong></span>
-      <span>Item: <strong id="rogue-item">Portfolio Scroll [P]</strong></span>
+      <span>Item: Portfolio Scroll [P]</span>
     </div>
   </div>
 
-  <!-- 토스트 알림 메시지 -->
+  <!-- Admin Login Modal -->
+  <div class="admin-login-backdrop" id="admin-login-modal" style="display: none;">
+    <div class="admin-login-card" onclick="event.stopPropagation()">
+      <div class="admin-login-header">
+        <h2 class="admin-login-title">🔒 Admin Authentication</h2>
+        <span class="badge badge-hotkey">Passcode Required</span>
+      </div>
+      <form id="admin-login-form" style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="admin-input-group">
+          <label class="admin-label">관리자 비밀번호 입력</label>
+          <input type="password" className="admin-input" id="admin-passcode-input" class="admin-input" placeholder="비밀번호 입력 (admin123)" autofocus>
+          <span class="admin-error-msg" id="admin-error-text" style="display: none;"></span>
+        </div>
+        <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px;">
+          <button class="btn btn-secondary btn-md" type="button" id="close-admin-login-btn">취소</button>
+          <button class="btn btn-primary btn-md" type="submit">로그인 접속</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard Modal -->
+  <div class="admin-dashboard-backdrop" id="admin-dashboard-modal" style="display: none;">
+    <div class="admin-dashboard-box">
+      <div class="admin-dashboard-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px; font-weight: bold;">⚙️ Admin Dashboard</span>
+          <span class="badge badge-terminal">LocalStorage Sync</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary btn-sm" id="admin-reset-btn">기본 데이터 복원</button>
+          <button class="btn btn-retro btn-sm" id="admin-logout-btn">LOGOUT [ESC]</button>
+        </div>
+      </div>
+
+      <div class="admin-dashboard-tabs">
+        <button class="admin-tab-btn active" id="tab-about-btn">✏️ 자기소개 (About) 수정</button>
+        <button class="admin-tab-btn" id="tab-projects-btn">📂 작업물 (Projects) 관리</button>
+      </div>
+
+      <div class="admin-dashboard-body">
+        <!-- 탭 1: 자기소개 편집 -->
+        <form id="admin-about-form" style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="admin-input-group">
+            <label class="admin-label">자기소개 및 Work Description 내용</label>
+            <textarea class="admin-input" id="admin-about-textarea" style="min-height: 180px; resize: vertical;" placeholder="포트폴리오에 보여질 소개 글을 작성하세요..."></textarea>
+          </div>
+          <div style="display: flex; justify-content: flex-end;">
+            <button class="btn btn-primary btn-md" type="submit">자기소개 저장 (LocalStorage 반영)</button>
+          </div>
+        </form>
+
+        <!-- 탭 2: 작업물 관리 -->
+        <div id="admin-projects-panel" style="display: none; flex-direction: column; gap: 24px;">
+          <form id="admin-add-project-form" class="admin-form-card">
+            <h3 style="font-size: 15px; font-weight: bold; color: var(--accent-primary);">+ 신규 작업물(Project) 추가</h3>
+
+            <div class="admin-input-group">
+              <label class="admin-label">프로젝트 이름 *</label>
+              <input type="text" class="admin-input" id="proj-title-input" placeholder="예: WASM Rogue Engine" required>
+            </div>
+
+            <div class="admin-input-group">
+              <label class="admin-label">핵심 설명 *</label>
+              <textarea class="admin-input" id="proj-desc-input" style="min-height: 70px;" placeholder="프로젝트의 주요 기능과 성과를 작성하세요..." required></textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="admin-input-group">
+                <label class="admin-label">기술 스택 (쉼표 구분)</label>
+                <input type="text" class="admin-input" id="proj-tags-input" placeholder="React, TypeScript, WASM">
+              </div>
+
+              <div class="admin-input-group">
+                <label class="admin-label">연결 URL (GitHub / Demo)</label>
+                <input type="url" class="admin-input" id="proj-link-input" placeholder="https://github.com/username/project">
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+              <button class="btn btn-primary btn-md" type="submit">프로젝트 추가하기</button>
+            </div>
+          </form>
+
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <h3 style="font-size: 15px; font-weight: bold;">등록된 프로젝트 목록</h3>
+            <div id="admin-projects-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast-msg"></div>
 
-  <!-- 애플리케이션 인터랙션 로직 스크립트 -->
+  <!-- 메인 애플리케이션 데이터 & 이벤트 제어 스크립트 -->
   <script>
-    // 1. F-3 콘솔 탐색 이스터에그
-    console.log(
-      "%c Welcome to Developer Portfolio! %c\nType 'rogue' in Cmd+K search to enter 1980 ASCII Rogue mode.",
-      "color: #00FF66; font-size: 16px; font-weight: bold; background: #0D1117; padding: 6px;",
-      "color: #00F0FF; font-size: 12px;"
-    );
+    // 1. 기본 초깃값 데이터 (LocalStorage 미존재 시 사용)
+    const DEFAULT_BIO = `시스템 프로그래밍과 웹 아키텍처의 경계에서 빠르고 가벼운 웹 경험을 만드는 엔지니어입니다. 
+불필요한 라이브러리 의존성을 최소화하고, 단결하면서도 강렬한 사용자 경험(UX)을 추구합니다.
 
-    // 2. DOM 요소 획득
+• Major Focus: WebAssembly, High-Performance Front-end, Systems Architecture
+• Core Values: Simplicity First, Code Hygiene, High Density Information`;
+
+    const DEFAULT_PROJECTS = [
+      {
+        id: "proj-1",
+        title: "WASM Rogue Engine (1980)",
+        description: "1980년 원작 Rogue 게임을 WebAssembly 및 Canvas 기술로 브라우저 상에 포팅한 미니 ASCII 던전 엔진입니다.",
+        tags: ["Rust", "WASM", "Canvas API"],
+        link: "https://github.com"
+      },
+      {
+        id: "proj-2",
+        title: "Minimal Portfolio UI Kit",
+        description: "Simplicity First 원칙 기반의 8pt 여백 시스템과 터미널 커서, 핫키 검색창이 적용된 초간결 포트폴리오 템플릿입니다.",
+        tags: ["TypeScript", "Next.js", "CSS Tokens"],
+        link: "https://github.com"
+      },
+      {
+        id: "proj-3",
+        title: "High-Performance State Engine",
+        description: "Zero-dependency 모듈 구조로 초당 60fps 상태 렌더링을 보장하는 초경량 클라이언트 바인딩 라이브러리입니다.",
+        tags: ["JavaScript", "Web Components"],
+        link: "https://github.com"
+      }
+    ];
+
+    // LocalStorage 키
+    const BIO_KEY = 'portfolio_bio_data_v2';
+    const PROJ_KEY = 'portfolio_projects_data_v2';
+    const SESSION_KEY = 'portfolio_admin_session';
+
+    // 2. 상태 관리 (State)
+    let currentBio = localStorage.getItem(BIO_KEY) || DEFAULT_BIO;
+    let currentProjects = JSON.parse(localStorage.getItem(PROJ_KEY) || "null") || DEFAULT_PROJECTS;
+    let isAdminSession = localStorage.getItem(SESSION_KEY) === 'true';
+
+    // DOM 요소
+    const aboutDisplayText = document.getElementById('about-display-text');
+    const projectsGrid = document.getElementById('projects-grid');
+    const adminTriggerBtn = document.getElementById('admin-trigger-btn');
+    const adminSessionBadge = document.getElementById('admin-session-badge');
+    const toastMsg = document.getElementById('toast-msg');
+
+    const adminLoginModal = document.getElementById('admin-login-modal');
+    const adminLoginForm = document.getElementById('admin-login-form');
+    const adminPasscodeInput = document.getElementById('admin-passcode-input');
+    const adminErrorText = document.getElementById('admin-error-text');
+    const closeAdminLoginBtn = document.getElementById('close-admin-login-btn');
+
+    const adminDashboardModal = document.getElementById('admin-dashboard-modal');
+    const adminAboutForm = document.getElementById('admin-about-form');
+    const adminAboutTextarea = document.getElementById('admin-about-textarea');
+    const adminAddProjectForm = document.getElementById('admin-add-project-form');
+    const adminProjectsList = document.getElementById('admin-projects-list');
+    const adminResetBtn = document.getElementById('admin-reset-btn');
+    const adminLogoutBtn = document.getElementById('admin-logout-btn');
+    const tabAboutBtn = document.getElementById('tab-about-btn');
+    const tabProjectsBtn = document.getElementById('tab-projects-btn');
+    const adminAboutFormEl = document.getElementById('admin-about-form');
+    const adminProjectsPanelEl = document.getElementById('admin-projects-panel');
+
+    function showToast(msg) {
+      toastMsg.innerText = msg;
+      toastMsg.style.display = 'block';
+      setTimeout(() => { toastMsg.style.display = 'none'; }, 2500);
+    }
+
+    // 3. UI 렌더링 함수
+    function renderApp() {
+      // Bio 렌더링
+      aboutDisplayText.innerText = currentBio;
+      adminAboutTextarea.value = currentBio;
+
+      // Projects 렌더링
+      projectsGrid.innerHTML = currentProjects.map(p => `
+        <div class="project-card">
+          <div>
+            <div class="project-card-header">
+              <h3 class="project-card-title">${escapeHtml(p.title)}</h3>
+              <a href="${escapeHtml(p.link || '#')}" target="_blank" rel="noopener" class="project-card-link-icon">↗</a>
+            </div>
+            <p class="project-card-description">${escapeHtml(p.description)}</p>
+          </div>
+          <div class="project-card-tags">
+            ${(p.tags || []).map(t => `<span class="badge badge-tech">${escapeHtml(t)}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      // Admin 대시보드 프로젝트 목록 렌더링
+      adminProjectsList.innerHTML = currentProjects.map(p => `
+        <div class="admin-project-item">
+          <div>
+            <div style="font-weight: bold;">${escapeHtml(p.title)}</div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">${escapeHtml(p.description)}</div>
+            <div style="display: flex; gap: 6px; margin-top: 6px;">
+              ${(p.tags || []).map(t => `<span class="badge badge-tech">${escapeHtml(t)}</span>`).join('')}
+            </div>
+          </div>
+          <button class="btn btn-ghost btn-sm" style="color: var(--accent-panic);" onclick="deleteProject('${p.id}')">🗑️ 삭제</button>
+        </div>
+      `).join('');
+
+      // 세션 배지 업데이트
+      adminSessionBadge.style.display = isAdminSession ? 'inline-flex' : 'none';
+      adminTriggerBtn.innerText = isAdminSession ? '⚙️ Admin Dashboard' : '🔑 Admin Login';
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // 4. Admin 접속 & 로그인 처리
+    adminTriggerBtn.addEventListener('click', () => {
+      if (isAdminSession) {
+        openAdminDashboard();
+      } else {
+        openAdminLogin();
+      }
+    });
+
+    function openAdminLogin() {
+      adminErrorText.style.display = 'none';
+      adminPasscodeInput.value = '';
+      adminLoginModal.style.display = 'flex';
+      adminPasscodeInput.focus();
+    }
+
+    closeAdminLoginBtn.addEventListener('click', () => { adminLoginModal.style.display = 'none'; });
+
+    adminLoginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const code = adminPasscodeInput.value.trim();
+      if (code === 'admin123') {
+        isAdminSession = true;
+        localStorage.setItem(SESSION_KEY, 'true');
+        adminLoginModal.style.display = 'none';
+        renderApp();
+        openAdminDashboard();
+        showToast("🔑 관리자 로그인 성공!");
+      } else {
+        adminErrorText.innerText = "비밀번호가 올바르지 않습니다. (기본: admin123)";
+        adminErrorText.style.display = 'block';
+      }
+    });
+
+    function openAdminDashboard() {
+      adminDashboardModal.style.display = 'flex';
+    }
+
+    adminLogoutBtn.addEventListener('click', () => {
+      isAdminSession = false;
+      localStorage.removeItem(SESSION_KEY);
+      adminDashboardModal.style.display = 'none';
+      renderApp();
+      showToast("🔒 로그아웃 되었습니다.");
+    });
+
+    // 탭 전환
+    tabAboutBtn.addEventListener('click', () => {
+      tabAboutBtn.classList.add('active');
+      tabProjectsBtn.classList.remove('active');
+      adminAboutFormEl.style.display = 'flex';
+      adminProjectsPanelEl.style.display = 'none';
+    });
+
+    tabProjectsBtn.addEventListener('click', () => {
+      tabProjectsBtn.classList.add('active');
+      tabAboutBtn.classList.remove('active');
+      adminAboutFormEl.style.display = 'none';
+      adminProjectsPanelEl.style.display = 'flex';
+    });
+
+    // 5. Admin 데이터 수정 이벤트 (Bio 및 Projects)
+    adminAboutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      currentBio = adminAboutTextarea.value;
+      localStorage.setItem(BIO_KEY, currentBio);
+      renderApp();
+      showToast("✓ 자기소개 내용이 LocalStorage에 저장되었습니다.");
+    });
+
+    adminAddProjectForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('proj-title-input').value.trim();
+      const desc = document.getElementById('proj-desc-input').value.trim();
+      const tagsStr = document.getElementById('proj-tags-input').value.trim();
+      const link = document.getElementById('proj-link-input').value.trim();
+
+      if (!title || !desc) return;
+
+      const tags = tagsStr.split(',').map(t => t.trim()).filter(Boolean);
+      const newProj = {
+        id: 'proj-' + Date.now(),
+        title: title,
+        description: desc,
+        tags: tags.length > 0 ? tags : ['Project'],
+        link: link || '#'
+      };
+
+      currentProjects.unshift(newProj);
+      localStorage.setItem(PROJ_KEY, JSON.stringify(currentProjects));
+      
+      document.getElementById('proj-title-input').value = '';
+      document.getElementById('proj-desc-input').value = '';
+      document.getElementById('proj-tags-input').value = '';
+      document.getElementById('proj-link-input').value = '';
+
+      renderApp();
+      showToast("✓ 신규 작업물이 성공적으로 추가되었습니다!");
+    });
+
+    window.deleteProject = function(id) {
+      if (!confirm("해당 작업물을 삭제하시겠습니까?")) return;
+      currentProjects = currentProjects.filter(p => p.id !== id);
+      localStorage.setItem(PROJ_KEY, JSON.stringify(currentProjects));
+      renderApp();
+      showToast("🗑️ 작업물이 삭제되었습니다.");
+    };
+
+    adminResetBtn.addEventListener('click', () => {
+      if (!confirm("모든 데이터를 초기 기본값으로 복원하시겠습니까?")) return;
+      currentBio = DEFAULT_BIO;
+      currentProjects = DEFAULT_PROJECTS;
+      localStorage.removeItem(BIO_KEY);
+      localStorage.removeItem(PROJ_KEY);
+      renderApp();
+      showToast("↺ 초기 데이터로 복원되었습니다.");
+    });
+
+    // 6. Command Palette & Rogue 1980 Easter Egg
     const cmdModal = document.getElementById('cmd-modal');
     const cmdInput = document.getElementById('cmd-input');
     const openCmdBtn = document.getElementById('open-cmd-btn');
     const closeCmdBtn = document.getElementById('close-cmd-btn');
     const cmdList = document.getElementById('cmd-list');
 
-    const rogueModal = document.getElementById('rogue-modal');
-    const openRogueBtn = document.getElementById('open-rogue-btn');
-    const closeRogueBtn = document.getElementById('close-rogue-btn');
-
-    const ownerToggleBtn = document.getElementById('owner-toggle-btn');
-    const ownerEditPanel = document.getElementById('owner-edit-panel');
-    const ownerTextarea = document.getElementById('owner-textarea');
-    const ownerSaveBtn = document.getElementById('owner-save-btn');
-    const ownerResetBtn = document.getElementById('owner-reset-btn');
-    const aboutDisplayText = document.getElementById('about-display-text');
-
-    const copyEmailBtn = document.getElementById('copy-email-btn');
-    const glitchToggleBtn = document.getElementById('glitch-toggle-btn');
-    const toastMsg = document.getElementById('toast-msg');
-
-    // 3. 토스트 알림 헬퍼
-    function showToast(text) {
-      toastMsg.innerText = text;
-      toastMsg.style.display = 'block';
-      setTimeout(() => { toastMsg.style.display = 'none'; }, 2500);
-    }
-
-    // 4. F-2 Owner Edit Mode 처리 (LocalStorage 저장 & 복원)
-    const STORAGE_KEY = 'portfolio_owner_about_text';
-    const DEFAULT_ABOUT = aboutDisplayText.innerText.trim();
-
-    // 초기 저장 내용 로드
-    const savedText = localStorage.getItem(STORAGE_KEY);
-    if (savedText) {
-      aboutDisplayText.innerText = savedText;
-      ownerTextarea.value = savedText;
-    } else {
-      ownerTextarea.value = DEFAULT_ABOUT;
-    }
-
-    let isOwnerMode = false;
-    ownerToggleBtn.addEventListener('click', () => {
-      isOwnerMode = !isOwnerMode;
-      ownerEditPanel.style.display = isOwnerMode ? 'block' : 'none';
-      ownerToggleBtn.innerText = isOwnerMode ? '🔓 Owner Active' : '🔒 Owner Edit';
-      ownerToggleBtn.classList.toggle('btn-primary', isOwnerMode);
-      ownerToggleBtn.classList.toggle('btn-secondary', !isOwnerMode);
-    });
-
-    ownerSaveBtn.addEventListener('click', () => {
-      const newText = ownerTextarea.value;
-      localStorage.setItem(STORAGE_KEY, newText);
-      aboutDisplayText.innerText = newText;
-      showToast("✓ Work Description saved successfully!");
-    });
-
-    ownerResetBtn.addEventListener('click', () => {
-      localStorage.removeItem(STORAGE_KEY);
-      aboutDisplayText.innerText = DEFAULT_ABOUT;
-      ownerTextarea.value = DEFAULT_ABOUT;
-      showToast("✓ Reset to default description.");
-    });
-
-    // 5. Cmd + K 핫키 이벤트 처리
     window.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        toggleCmdModal();
+        cmdModal.style.display = cmdModal.style.display === 'none' ? 'flex' : 'none';
+        if (cmdModal.style.display === 'flex') cmdInput.focus();
       }
       if (e.key === 'Escape') {
         cmdModal.style.display = 'none';
-        rogueModal.style.display = 'none';
+        document.getElementById('rogue-modal').style.display = 'none';
+        adminLoginModal.style.display = 'none';
+        adminDashboardModal.style.display = 'none';
       }
     });
 
-    function toggleCmdModal() {
-      const isHidden = cmdModal.style.display === 'none';
-      cmdModal.style.display = isHidden ? 'flex' : 'none';
-      if (isHidden) {
-        cmdInput.value = '';
-        cmdInput.focus();
-      }
-    }
-
-    openCmdBtn.addEventListener('click', toggleCmdModal);
+    openCmdBtn.addEventListener('click', () => { cmdModal.style.display = 'flex'; cmdInput.focus(); });
     closeCmdBtn.addEventListener('click', () => { cmdModal.style.display = 'none'; });
 
-    // 커맨드 입력 필터링 및 실행
     cmdInput.addEventListener('input', (e) => {
       const val = e.target.value.trim().toLowerCase();
+      if (val === 'admin') {
+        cmdModal.style.display = 'none';
+        if (isAdminSession) openAdminDashboard(); else openAdminLogin();
+      }
       if (val === 'rogue') {
         cmdModal.style.display = 'none';
         openRogueGame();
@@ -561,91 +711,48 @@
 
       if (action === 'nav-projects') window.location.href = '#projects';
       if (action === 'nav-about') window.location.href = '#about';
-      if (action === 'nav-contact') window.location.href = '#contact';
+      if (action === 'trigger-admin') { if (isAdminSession) openAdminDashboard(); else openAdminLogin(); }
       if (action === 'trigger-rogue') openRogueGame();
-      if (action === 'trigger-glitch') toggleGlitchEffect();
     });
 
-    // 6. Glitch Madness Effect
-    let isGlitch = false;
-    function toggleGlitchEffect() {
-      isGlitch = !isGlitch;
-      document.body.classList.toggle('glitch-active', isGlitch);
-      showToast(isGlitch ? "⚡ Madness Glitch Effect ON" : "✓ Normal Mode");
-    }
-    glitchToggleBtn.addEventListener('click', toggleGlitchEffect);
-
-    // 7. 이메일 복사 기능
-    copyEmailBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText('dev@example.com');
-      showToast("📋 Email copied to clipboard!");
-    });
-
-    // 8. F-3 Interactive 1980 ASCII Rogue Game Engine Implementation
+    // Rogue Game
+    const rogueModal = document.getElementById('rogue-modal');
     const rogueAsciiGrid = document.getElementById('rogue-ascii-grid');
-    const rogueGoldEl = document.getElementById('rogue-gold');
+    const openRogueBtn = document.getElementById('open-rogue-btn');
+    const closeRogueBtn = document.getElementById('close-rogue-btn');
 
     let playerPos = { x: 5, y: 3 };
-    let goldCount = 100;
-
     const mapGrid = [
       "+-------------------------------------------------------------+",
       "|                                                             |",
-      "|                                                             |",
-      "|                                                             |",
+      "|   @ .................. [P] (Portfolio Scroll)               |",
+      "|     |                                                       |",
       "|     +-------+                                               |",
-      "|             |     [P] Scroll (Portfolio Item)               |",
-      "|           [ D ] Dungeon Exit                                |",
       "|             |                                               |",
-      "|             +------------ K (Kobold)                        |",
+      "|           [ D ] Exit                                        |",
       "|                                                             |",
       "+-------------------------------------------------------------+"
     ];
 
     function renderRogueMap() {
-      let renderLines = mapGrid.map((line, y) => {
+      let lines = mapGrid.map((line, y) => {
         let chars = line.split('');
-        if (y === playerPos.y) {
-          chars[playerPos.x] = '@'; // 플레이어 위치
-        }
+        if (y === playerPos.y) chars[playerPos.x] = '@';
         return chars.join('');
       });
-      rogueAsciiGrid.innerText = renderLines.join('\n');
+      rogueAsciiGrid.innerText = lines.join('\n');
     }
 
     function openRogueGame() {
       rogueModal.style.display = 'flex';
       renderRogueMap();
-      showToast("🎮 Use Arrow keys or HJKL to explore ASCII dungeon!");
     }
 
     openRogueBtn.addEventListener('click', openRogueGame);
     closeRogueBtn.addEventListener('click', () => { rogueModal.style.display = 'none'; });
 
-    // HJKL / Arrow 키 이동 조작
-    window.addEventListener('keydown', (e) => {
-      if (rogueModal.style.display !== 'flex') return;
-
-      let dx = 0, dy = 0;
-      if (e.key === 'ArrowLeft' || e.key === 'h') dx = -1;
-      if (e.key === 'ArrowRight' || e.key === 'l') dx = 1;
-      if (e.key === 'ArrowUp' || e.key === 'k') dy = -1;
-      if (e.key === 'ArrowDown' || e.key === 'j') dy = 1;
-
-      if (dx !== 0 || dy !== 0) {
-        e.preventDefault();
-        const newX = playerPos.x + dx;
-        const newY = playerPos.y + dy;
-
-        if (newY >= 1 && newY < mapGrid.length - 1 && newX >= 1 && newX < mapGrid[0].length - 1) {
-          playerPos.x = newX;
-          playerPos.y = newY;
-          goldCount += 5;
-          rogueGoldEl.innerText = goldCount;
-          renderRogueMap();
-        }
-      }
-    });
+    // 앱 초기화 렌더링
+    renderApp();
   </script>
 </body>
 </html>

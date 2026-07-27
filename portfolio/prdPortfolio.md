@@ -35,12 +35,18 @@
 - **Interests & Tech Stack**: 관심 기술, 개인 프로젝트, 취향 관련 키워드 및 태그.
 - **Contact**: Email 및 Social Media Link (GitHub, LinkedIn 등).
 
-### F-2. Owner-Only Editable Section
+### F-2. Client-Side Admin Page & LocalStorage Persistence
 
-- **Requirement**: 작성자(Owner) 본인만 '소개 글' 및 'Work Description'을 쉽고 안전하게 수정 가능해야 함.
-- **Implementation Architecture**:
-  - **Static MDX / Markdown (Recommended)**: Git Repository 내의 `.mdx` 파일 수정 후 Push 시 자동 배포 반영 (DB/Auth 비활성화).
-  - **Lightweight Admin / CMS**: Supabase / Firebase Auth 기반으로 본인 계정 로그인 시 웹페이지 상에서 텍스트 수정 및 저장.
+- **Requirement**: 작성자(Owner)가 로그인(인증)을 거쳐 전용 관리자 페이지(Admin Dashboard)에 접속하여 '자기소개(About)'를 수정하고 '작업물(Projects)'을 자유롭게 추가/수정/삭제할 수 있어야 함.
+- **Admin Access & Authentication**:
+  - **Access Point**: Header의 `Admin Login` 버튼 또는 Quick Command Palette (`Cmd + K` -> `admin` 입력).
+  - **Authentication Flow**: 간단한 비밀번호(Passcode/Secret Key) 인증 후 관리자 세션 발급 및 관리자 대시보드 진입.
+- **Key Admin Capabilities**:
+  - **Bio & About Editor**: 소개 글, 직함, 주요 가치관 문구 수정 및 렌더링.
+  - **Project Manager**: 신규 프로젝트 추가 (제목, 요약 설명, 기술 스택 태그, GitHub 및 Live Demo URL), 기존 프로젝트 수정 및 삭제.
+- **Implementation & Storage Architecture**:
+  - **LocalStorage Persistence**: 작성 및 수정된 모든 데이터(Bio, Projects 리스트)는 브라우저 `LocalStorage`에 JSON 포맷으로 실시간 저장 및 복원.
+  - **Reset to Default**: 필요 시 초기 기본 데이터로 복원(Reset)하는 기능 제공.
 
 ### F-3. Subtle Nerdness, Madness & Rogue (1980) Easter Egg Accents
 
