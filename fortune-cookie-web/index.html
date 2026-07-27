@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celestial Fortune Cookie & MOTD</title>
+  <meta name="description" content="Crack open an interactive 3D fortune cookie to receive your Message of the Day, lucky numbers, and wisdom.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Canvas Background for Starfield & Particles -->
+  <canvas id="canvas-bg"></canvas>
+  <div class="ambient-orb orb-1"></div>
+  <div class="ambient-orb orb-2"></div>
+
+  <div class="app-viewport">
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="logo-group">
+        <div class="logo-icon">🥠</div>
+        <div class="logo-title">
+          <h1>Celestial Fortune</h1>
+          <p>Message of the Day</p>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <div class="streak-badge" id="streak-counter" title="Daily Cracking Streak">
+          🔥 <span id="streak-count">1</span> Day Streak
+        </div>
+
+        <button class="icon-btn" id="audio-toggle-btn" title="Toggle Sound Effects">
+          <span id="audio-icon">🔊</span>
+        </button>
+
+        <button class="icon-btn" id="custom-fortune-btn" title="Bake Custom Cookie">
+          <span>✨</span>
+        </button>
+
+        <button class="icon-btn" id="history-toggle-btn" title="View History & Favorites">
+          <span>📜</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Stage -->
+    <main class="stage">
+      <!-- Category Selector Pills -->
+      <div class="category-bar">
+        <button class="cat-pill active" data-category="daily">
+          🌟 Daily MOTD
+        </button>
+        <button class="cat-pill" data-category="all">
+          ✨ All Fortunes
+        </button>
+        <button class="cat-pill" data-category="wisdom">
+          🧠 Wisdom
+        </button>
+        <button class="cat-pill" data-category="tech">
+          💻 Tech & Code
+        </button>
+        <button class="cat-pill" data-category="cosmic">
+          🌌 Cosmic
+        </button>
+        <button class="cat-pill" data-category="funny">
+          😂 Funny
+        </button>
+      </div>
+
+      <!-- Cookie Container Stage -->
+      <div class="cookie-stage" id="cookie-stage" tabindex="0" aria-label="Click or press space to crack fortune cookie">
+        <div class="cookie-aura"></div>
+
+        <div class="cookie-wrapper" id="cookie-wrapper">
+          <div class="cookie-image-container">
+            <!-- Left Cookie Half SVG Asset -->
+            <img src="assets/images/cookie-left.svg" class="cookie-half-img left-half" alt="Fortune Cookie Left Half" />
+            <!-- Right Cookie Half SVG Asset -->
+            <img src="assets/images/cookie-right.svg" class="cookie-half-img right-half" alt="Fortune Cookie Right Half" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Hint Text -->
+      <div class="click-hint" id="click-hint">
+        <span>✨ Click the cookie or press <kbd>Space</kbd> to crack open</span>
+      </div>
+
+      <!-- Fortune Paper Slip (Revealed on Crack) -->
+      <div class="fortune-paper-container" id="fortune-paper-container">
+        <div class="fortune-paper">
+          <div class="paper-header">
+            <span class="motd-badge" id="motd-badge" style="display: none;">🌟 MESSAGE OF THE DAY</span>
+            <span class="category-tag" id="paper-category-tag">WISDOM</span>
+            <span style="font-size: 0.8rem; color: #9CA3AF;" id="paper-date">Today</span>
+          </div>
+
+          <div class="fortune-quote" id="paper-quote">
+            "Your journey of a thousand miles begins with a single step."
+          </div>
+
+          <div class="fortune-author" id="paper-author">
+            — Lao Tzu
+          </div>
+
+          <!-- Paper Details Grid (Lucky Numbers, Lucky Color, Chinese Word) -->
+          <div class="paper-extra-grid">
+            <div class="extra-box">
+              <div class="extra-label">Lucky Numbers</div>
+              <div class="lucky-num-pills" id="paper-lucky-numbers">
+                <span class="num-pill">7</span>
+                <span class="num-pill">14</span>
+                <span class="num-pill">21</span>
+                <span class="num-pill">28</span>
+                <span class="num-pill">35</span>
+                <span class="num-pill">42</span>
+              </div>
+            </div>
+
+            <div class="extra-box">
+              <div class="extra-label">Lucky Color</div>
+              <div class="color-indicator" id="paper-lucky-color">
+                <div class="color-dot" style="background-color: #F59E0B;"></div>
+                <span>Cosmic Gold</span>
+              </div>
+            </div>
+
+            <div class="extra-box">
+              <div class="extra-label">Word of the Day</div>
+              <div class="chinese-box" id="paper-chinese-word">
+                <span class="cn-char">福</span>
+                <div class="cn-info">
+                  <div class="cn-pinyin">fú</div>
+                  <div class="cn-meaning">Blessing</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paper Action Buttons -->
+          <div class="paper-actions">
+            <button class="btn-primary" id="crack-another-btn">
+              <span>🥠 Crack Another Cookie</span>
+            </button>
+
+            <button class="btn-secondary" id="tts-read-btn">
+              <span>🔊 Listen</span>
+            </button>
+
+            <button class="btn-secondary" id="copy-fortune-btn">
+              <span>📋 Copy</span>
+            </button>
+
+            <button class="btn-secondary" id="fav-fortune-btn">
+              <span id="fav-icon">⭐ Bookmark</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal: History & Bookmarks -->
+    <div class="modal-overlay" id="history-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">📜 Opened Fortune History</div>
+          <button class="modal-close" id="close-history-modal">&times;</button>
+        </div>
+        <div class="modal-body" id="history-list"></div>
+      </div>
+    </div>
+
+    <!-- Modal: Custom Cookie Creator -->
+    <div class="modal-overlay" id="custom-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">✨ Bake a Custom Fortune Cookie</div>
+          <button class="modal-close" id="close-custom-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <label for="custom-quote">Your Fortune Message / MOTD</label>
+            <textarea id="custom-quote" class="form-textarea" rows="3" placeholder="Enter your inspiring or funny message..."></textarea>
+          </div>
+          <div class="input-group">
+            <label for="custom-author">Author / Sender Name</label>
+            <input type="text" id="custom-author" class="form-input" placeholder="e.g. Master Yoda or Your Name" />
+          </div>
+          <button class="btn-primary" id="bake-custom-btn" style="width: 100%; margin-top: 1rem;">
+            🥠 Bake & Crack This Cookie
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+/* ==========================================
+ * Hero 컴포넌트 스타일
+ * ------------------------------------------
+ * 메인 히어로 섹션 (시원한 여백, 터미널 프롬프트 커서, Call To Action)
+ * ========================================== */
+
+.hero-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6) var(--space-12);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+/* 메인 타이틀 */
+.hero-title {
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.hero-title-highlight {
+  color: var(--accent-primary);
+}
+
+/* 서브 설명 문구 */
+.hero-subtitle {
+  font-size: var(--text-lg, 18px);
+  color: var(--text-secondary);
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* CTA 버튼 래퍼 */
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}

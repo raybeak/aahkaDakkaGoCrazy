@@ -1,0 +1,81 @@
+/* ==========================================
+ * Header 컴포넌트 스타일
+ * ------------------------------------------
+ * 최소주의 상단 네비게이션 헤더 및 Cmd+K 퀵 트리거
+ * ========================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  background-color: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-default);
+  padding: var(--space-4) 0;
+}
+
+.site-header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 로고 / 네임 스페이스 */
+.site-logo {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.site-logo-symbol {
+  color: var(--accent-primary);
+}
+
+/* 네비게이션 링크 그룹 */
+.site-nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  list-style: none;
+}
+
+.site-nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.site-nav-link:hover {
+  color: var(--accent-primary);
+}
+
+/* Cmd+K 트리거 버튼 */
+.cmd-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: var(--space-1) var(--space-3);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cmd-trigger-btn:hover {
+  border-color: var(--accent-cyan);
+  color: var(--text-primary);
+}

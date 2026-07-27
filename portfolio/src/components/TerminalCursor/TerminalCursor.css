@@ -1,0 +1,32 @@
+/* ==========================================
+ * TerminalCursor 컴포넌트 스타일
+ * ------------------------------------------
+ * 개발자 감성의 은은한 터미널 커서 및 프롬프트 스타일
+ * ========================================== */
+
+.terminal-prompt-container {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+/* 터미널 프롬프트 기호 ($ dev ~) */
+.terminal-symbol {
+  color: var(--accent-primary);
+  font-weight: 700;
+}
+
+/* 깜빡이는 직사각형 블록 커서 */
+.terminal-cursor-block {
+  display: inline-block;
+  width: 9px;
+  height: 1.2em;
+  background-color: var(--accent-primary);
+  box-shadow: 0 0 8px var(--accent-primary);
+  animation: terminal-blink 1s infinite;
+  vertical-align: middle;
+}

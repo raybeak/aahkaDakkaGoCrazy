@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Portfolio - Clean Minimalist & Rogue (1980)</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Personal Portfolio Web featuring Minimalist UI, Terminal Motifs, Monospace Typography, and 1980 ASCII Rogue Easter Eggs.">
+  <meta name="keywords" content="Portfolio, Full Stack Developer, Minimalist UI, WebAssembly, ASCII Rogue, Terminal">
+  <meta name="author" content="Developer">
+
+  <!-- Google Fonts (Inter, JetBrains Mono, VT323) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=VT323&display=swap" rel="stylesheet">
+  
+  <!-- 디자인 토큰 및 컴포넌트 CSS 스타일시트 -->
+  <link rel="stylesheet" href="./src/styles/tokens.css">
+  <link rel="stylesheet" href="./src/components/TerminalCursor/TerminalCursor.css">
+  <link rel="stylesheet" href="./src/components/Button/Button.css">
+  <link rel="stylesheet" href="./src/components/Badge/Badge.css">
+  <link rel="stylesheet" href="./src/components/ProjectCard/ProjectCard.css">
+  <link rel="stylesheet" href="./src/components/CommandPalette/CommandPalette.css">
+  <link rel="stylesheet" href="./src/components/RogueModal/RogueModal.css">
+  <link rel="stylesheet" href="./src/components/Header/Header.css">
+  <link rel="stylesheet" href="./src/components/Hero/Hero.css">
+
+  <style>
+    /* --------------------------------------------------
+     * PRD 및 디자인 가이드 준수 글로벌 전용 스타일
+     * -------------------------------------------------- */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    .section {
+      padding: var(--space-12) 0;
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .section-title {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .section-title::before {
+      content: ">";
+      color: var(--accent-primary);
+      font-family: var(--font-mono);
+    }
+
+    /* F-2: Owner Editable Section Styles */
+    .owner-edit-container {
+      background-color: var(--bg-surface);
+      border: 1px dashed var(--border-active);
+      border-radius: 12px;
+      padding: var(--space-6);
+      margin-top: var(--space-4);
+    }
+
+    .owner-textarea {
+      width: 100%;
+      min-height: 140px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      padding: var(--space-4);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      resize: vertical;
+      outline: none;
+    }
+
+    .owner-textarea:focus {
+      border-color: var(--accent-primary);
+    }
+
+    /* About Section Content */
+    .about-text {
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    /* Interests & Stack Grid */
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-6);
+    }
+
+    .interest-category {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 10px;
+      padding: var(--space-4);
+    }
+
+    .interest-cat-title {
+      font-size: var(--text-sm);
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      margin-bottom: var(--space-3);
+    }
+
+    /* Contact Buttons & Info */
+    .contact-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 12px;
+      padding: var(--space-8);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-4);
+    }
+
+    /* Footer */
+    .footer {
+      padding: var(--space-8) 0;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--accent-primary);
+      color: var(--accent-primary);
+      padding: var(--space-3) var(--space-4);
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 300;
+      display: none;
+    }
+  </style>
+</head>
+<body id="app-body">
+
+  <!-- F-1 헤더 네비게이션 컴포넌트 -->
+  <header class="site-header">
+    <div class="site-header-container">
+      <a href="#" class="site-logo">
+        <span class="site-logo-symbol">&gt;_</span>
+        <span>dev.portfolio</span>
+      </a>
+      
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <nav>
+          <ul class="site-nav-links">
+            <li><a href="#about" class="site-nav-link">About</a></li>
+            <li><a href="#projects" class="site-nav-link">Projects</a></li>
+            <li><a href="#interests" class="site-nav-link">Interests</a></li>
+            <li><a href="#contact" class="site-nav-link">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- F-2: Owner Edit Mode Toggle -->
+        <button class="btn btn-secondary btn-sm" id="owner-toggle-btn" title="Toggle Owner Editing Mode">
+          🔒 Owner Edit
+        </button>
+
+        <!-- F-3: Command Palette Button -->
+        <button class="cmd-trigger-btn" id="open-cmd-btn" title="Quick Command Search">
+          <span>Search</span>
+          <span class="badge badge-hotkey">⌘K</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 레이아웃 컨테이너 -->
+  <main class="container">
+    
+    <!-- F-1 / Hero Section -->
+    <section class="hero-section">
+      <div class="terminal-prompt-container">
+        <span class="terminal-symbol">$</span>
+        <span class="terminal-path">whoami</span>
+        <span class="terminal-command">cat identity.txt</span>
+        <span class="terminal-cursor-block" id="hero-cursor"></span>
+      </div>
+
+      <h1 class="hero-title" id="hero-heading">
+        Crafting Minimalist & Performant Web Systems
+      </h1>
+
+      <p class="hero-subtitle">
+        단 하나의 페이지에 본인의 작업물과 기술적 열정을 담아내는 포트폴리오입니다. Clean UI 기반에 은은한 Terminal 감성과 1980 Rogue 이스터에그를 결합했습니다.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#projects" class="btn btn-primary btn-lg">View Projects</a>
+        <a href="#contact" class="btn btn-secondary btn-lg">Get in Touch</a>
+        <button class="btn btn-retro btn-md" id="open-rogue-btn">🎮 ROGUE 1980</button>
+        <button class="btn btn-ghost btn-sm" id="glitch-toggle-btn" title="Toggle Madness Glitch Effect">⚡ Glitch Mode</button>
+      </div>
+    </section>
+
+    <!-- F-1 & F-2 / About & Owner Editable Section -->
+    <section id="about" class="section">
+      <h2 class="section-title">About & Work Description</h2>
+      
+      <!-- 소개 글 표시 영역 -->
+      <div class="about-text" id="about-display-text">
+시스템 프로그래밍과 웹 아키텍처의 경계에서 빠르고 가벼운 웹 경험을 만드는 엔지니어입니다. 
+불필요한 라이브러리 의존성을 최소화하고, 단결하면서도 강렬한 사용자 경험(UX)을 추구합니다.
+
+• Major Focus: WebAssembly, High-Performance Front-end, Systems Architecture
+• Core Values: Simplicity First, Code Hygiene, High Density Information
+      </div>
+
+      <!-- F-2: Owner 전용 텍스트 편집기 (소유자 전용 모드 활성화 시 표시) -->
+      <div class="owner-edit-container" id="owner-edit-panel" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span class="badge badge-terminal">🔒 Owner Editable Mode Active</span>
+          <span style="font-size: 12px; color: var(--text-muted);">Changes save to LocalStorage automatically</span>
+        </div>
+        <textarea class="owner-textarea" id="owner-textarea" placeholder="소개 글 및 Work Description을 작성하세요..."></textarea>
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+          <button class="btn btn-primary btn-sm" id="owner-save-btn">Save Changes</button>
+          <button class="btn btn-secondary btn-sm" id="owner-reset-btn">Reset Default</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- F-1 / Projects & Works Section -->
+    <section id="projects" class="section">
+      <h2 class="section-title">Featured Projects & Works</h2>
+      
+      <div class="grid-2col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+        
+        <!-- Project 1 -->
+        <div class="project-card">
+          <div>
+            <div class="project-card-header">
+              <h3 class="project-card-title">WASM Rogue Engine (1980)</h3>
+              <a href="https://github.com" target="_blank" rel="noopener" class="project-card-link-icon" title="View Source">↗</a>
+            </div>
+            <p class="project-card-description">
+              1980년 원작 Rogue 게임을 WebAssembly 및 Canvas 기술로 브라우저 상에 포팅한 미니 ASCII 던전 엔진입니다.
+            </p>
+          </div>
+          <div class="project-card-tags">
+            <span class="badge badge-tech">Rust</span>
+            <span class="badge badge-tech">WASM</span>
+            <span class="badge badge-tech">Canvas API</span>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card">
+          <div>
+            <div class="project-card-header">
+              <h3 class="project-card-title">Minimal Portfolio UI Kit</h3>
+              <a href="https://github.com" target="_blank" rel="noopener" class="project-card-link-icon" title="View Source">↗</a>
+            </div>
+            <p class="project-card-description">
+              Simplicity First 원칙 기반의 8pt 여백 시스템과 터미널 커서, 핫키 검색창이 적용된 초간결 포트폴리오 템플릿입니다.
+            </p>
+          </div>
+          <div class="project-card-tags">
+            <span class="badge badge-tech">TypeScript</span>
+            <span class="badge badge-tech">Next.js</span>
+            <span class="badge badge-tech">CSS Tokens</span>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card">
+          <div>
+            <div class="project-card-header">
+              <h3 class="project-card-title">High-Performance State Engine</h3>
+              <a href="https://github.com" target="_blank" rel="noopener" class="project-card-link-icon" title="View Source">↗</a>
+            </div>
+            <p class="project-card-description">
+              Zero-dependency 모듈 구조로 초당 60fps 상태 렌더링을 보장하는 초경량 클라이언트 바인딩 라이브러리입니다.
+            </p>
+          </div>
+          <div class="project-card-tags">
+            <span class="badge badge-tech">JavaScript</span>
+            <span class="badge badge-tech">Web Components</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- F-1 / Interests & Tech Stack Section -->
+    <section id="interests" class="section">
+      <h2 class="section-title">Interests & Tech Stack</h2>
+      
+      <div class="interests-grid">
+        <div class="interest-category">
+          <div class="interest-cat-title">&gt; Languages</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="badge badge-tech">TypeScript</span>
+            <span class="badge badge-tech">JavaScript (ES6+)</span>
+            <span class="badge badge-tech">Rust</span>
+            <span class="badge badge-tech">C / C++</span>
+            <span class="badge badge-tech">HTML5 / CSS3</span>
+          </div>
+        </div>
+
+        <div class="interest-category">
+          <div class="interest-cat-title">&gt; Frameworks & Architecture</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="badge badge-tech">React</span>
+            <span class="badge badge-tech">Next.js</span>
+            <span class="badge badge-tech">Vite</span>
+            <span class="badge badge-tech">WebAssembly</span>
+          </div>
+        </div>
+
+        <div class="interest-category">
+          <div class="interest-cat-title">&gt; Nerdness & Passions</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="badge badge-terminal">Retro Games (Rogue 1980)</span>
+            <span class="badge badge-terminal">Vim Keybindings</span>
+            <span class="badge badge-terminal">CLI Tooling</span>
+            <span class="badge badge-hotkey">Cmd+K Search</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- F-1 / Contact Section -->
+    <section id="contact" class="section" style="border-bottom: none;">
+      <h2 class="section-title">Contact & Social Links</h2>
+      
+      <div class="contact-card">
+        <h3 style="font-size: 24px; font-weight: 700;">Let's build something minimal & powerful.</h3>
+        <p style="color: var(--text-secondary); max-width: 500px;">
+          채용, 협업 제안 또는 기술적 교류 관련 문의는 아래 이메일이나 소셜 링크를 통해 편하게 연락주세요.
+        </p>
+
+        <div class="contact-links">
+          <button class="btn btn-primary btn-md" id="copy-email-btn">
+            ✉️ dev@example.com (Copy)
+          </button>
+          <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-secondary btn-md">
+            GitHub ↗
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener" class="btn btn-secondary btn-md">
+            LinkedIn ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <p>© 2026 Developer Portfolio. Built with Simplicity First & Rogue (1980) Easter Eggs.</p>
+  </footer>
+
+  <!-- F-3: Command Palette (`Cmd + K`) Modal -->
+  <div class="cmd-palette-backdrop" id="cmd-modal" style="display: none;">
+    <div class="cmd-palette-container">
+      <div class="cmd-palette-input-wrapper">
+        <span class="cmd-palette-prompt">&gt;</span>
+        <input type="text" class="cmd-palette-input" id="cmd-input" placeholder="명령어를 입력하세요... (예: rogue)" autofocus>
+        <span class="badge badge-hotkey" id="close-cmd-btn" style="cursor: pointer;">ESC 닫기</span>
+      </div>
+      <ul class="cmd-palette-list" id="cmd-list">
+        <li class="cmd-palette-item" data-action="nav-projects">
+          <span>프로젝트 목록으로 이동</span>
+          <span class="badge badge-tech">G P</span>
+        </li>
+        <li class="cmd-palette-item" data-action="nav-about">
+          <span>자기소개 (About) 섹션 이동</span>
+          <span class="badge badge-tech">G A</span>
+        </li>
+        <li class="cmd-palette-item" data-action="nav-contact">
+          <span>연락처 (Contact) 섹션 이동</span>
+          <span class="badge badge-tech">G C</span>
+        </li>
+        <li class="cmd-palette-item" data-action="trigger-rogue">
+          <span>🎮 1980 ASCII Rogue 이스터에그 모드 실행</span>
+          <span class="badge badge-tech">ROGUE</span>
+        </li>
+        <li class="cmd-palette-item" data-action="trigger-glitch">
+          <span>⚡ Madness Glitch 인터랙션 토글</span>
+          <span class="badge badge-tech">GLITCH</span>
+        </li>
+      </ul>
+      <div class="cmd-palette-footer">
+        <span>Press ESC to exit</span>
+        <span>Type 'rogue' for 1980 game mode</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- F-3: Interactive 1980 ASCII Rogue Easter Egg Modal -->
+  <div class="rogue-modal-fullscreen rogue-crt-overlay" id="rogue-modal" style="display: none;">
+    <div class="rogue-header">
+      <span>ROGUE (1980) ASCII DUNGEON EASTER EGG</span>
+      <span style="font-size: 14px; color: var(--accent-secondary);">Move: Arrow Keys or HJKL | Esc: Exit</span>
+      <button class="btn btn-retro btn-sm" id="close-rogue-btn">EXIT [ESC]</button>
+    </div>
+
+    <!-- 대화형 ASCII 던전 화면 -->
+    <div class="rogue-viewport">
+      <pre class="rogue-ascii-screen" id="rogue-ascii-grid"></pre>
+    </div>
+
+    <!-- 플레이어 실시간 스탯바 -->
+    <div class="rogue-status-bar">
+      <span>Level: <strong id="rogue-lvl">1</strong></span>
+      <span>HP: <strong id="rogue-hp">12/12</strong></span>
+      <span>Gold: <strong id="rogue-gold">100</strong></span>
+      <span>Item: <strong id="rogue-item">Portfolio Scroll [P]</strong></span>
+    </div>
+  </div>
+
+  <!-- 토스트 알림 메시지 -->
+  <div class="toast" id="toast-msg"></div>
+
+  <!-- 애플리케이션 인터랙션 로직 스크립트 -->
+  <script>
+    // 1. F-3 콘솔 탐색 이스터에그
+    console.log(
+      "%c Welcome to Developer Portfolio! %c\nType 'rogue' in Cmd+K search to enter 1980 ASCII Rogue mode.",
+      "color: #00FF66; font-size: 16px; font-weight: bold; background: #0D1117; padding: 6px;",
+      "color: #00F0FF; font-size: 12px;"
+    );
+
+    // 2. DOM 요소 획득
+    const cmdModal = document.getElementById('cmd-modal');
+    const cmdInput = document.getElementById('cmd-input');
+    const openCmdBtn = document.getElementById('open-cmd-btn');
+    const closeCmdBtn = document.getElementById('close-cmd-btn');
+    const cmdList = document.getElementById('cmd-list');
+
+    const rogueModal = document.getElementById('rogue-modal');
+    const openRogueBtn = document.getElementById('open-rogue-btn');
+    const closeRogueBtn = document.getElementById('close-rogue-btn');
+
+    const ownerToggleBtn = document.getElementById('owner-toggle-btn');
+    const ownerEditPanel = document.getElementById('owner-edit-panel');
+    const ownerTextarea = document.getElementById('owner-textarea');
+    const ownerSaveBtn = document.getElementById('owner-save-btn');
+    const ownerResetBtn = document.getElementById('owner-reset-btn');
+    const aboutDisplayText = document.getElementById('about-display-text');
+
+    const copyEmailBtn = document.getElementById('copy-email-btn');
+    const glitchToggleBtn = document.getElementById('glitch-toggle-btn');
+    const toastMsg = document.getElementById('toast-msg');
+
+    // 3. 토스트 알림 헬퍼
+    function showToast(text) {
+      toastMsg.innerText = text;
+      toastMsg.style.display = 'block';
+      setTimeout(() => { toastMsg.style.display = 'none'; }, 2500);
+    }
+
+    // 4. F-2 Owner Edit Mode 처리 (LocalStorage 저장 & 복원)
+    const STORAGE_KEY = 'portfolio_owner_about_text';
+    const DEFAULT_ABOUT = aboutDisplayText.innerText.trim();
+
+    // 초기 저장 내용 로드
+    const savedText = localStorage.getItem(STORAGE_KEY);
+    if (savedText) {
+      aboutDisplayText.innerText = savedText;
+      ownerTextarea.value = savedText;
+    } else {
+      ownerTextarea.value = DEFAULT_ABOUT;
+    }
+
+    let isOwnerMode = false;
+    ownerToggleBtn.addEventListener('click', () => {
+      isOwnerMode = !isOwnerMode;
+      ownerEditPanel.style.display = isOwnerMode ? 'block' : 'none';
+      ownerToggleBtn.innerText = isOwnerMode ? '🔓 Owner Active' : '🔒 Owner Edit';
+      ownerToggleBtn.classList.toggle('btn-primary', isOwnerMode);
+      ownerToggleBtn.classList.toggle('btn-secondary', !isOwnerMode);
+    });
+
+    ownerSaveBtn.addEventListener('click', () => {
+      const newText = ownerTextarea.value;
+      localStorage.setItem(STORAGE_KEY, newText);
+      aboutDisplayText.innerText = newText;
+      showToast("✓ Work Description saved successfully!");
+    });
+
+    ownerResetBtn.addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      aboutDisplayText.innerText = DEFAULT_ABOUT;
+      ownerTextarea.value = DEFAULT_ABOUT;
+      showToast("✓ Reset to default description.");
+    });
+
+    // 5. Cmd + K 핫키 이벤트 처리
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        toggleCmdModal();
+      }
+      if (e.key === 'Escape') {
+        cmdModal.style.display = 'none';
+        rogueModal.style.display = 'none';
+      }
+    });
+
+    function toggleCmdModal() {
+      const isHidden = cmdModal.style.display === 'none';
+      cmdModal.style.display = isHidden ? 'flex' : 'none';
+      if (isHidden) {
+        cmdInput.value = '';
+        cmdInput.focus();
+      }
+    }
+
+    openCmdBtn.addEventListener('click', toggleCmdModal);
+    closeCmdBtn.addEventListener('click', () => { cmdModal.style.display = 'none'; });
+
+    // 커맨드 입력 필터링 및 실행
+    cmdInput.addEventListener('input', (e) => {
+      const val = e.target.value.trim().toLowerCase();
+      if (val === 'rogue') {
+        cmdModal.style.display = 'none';
+        openRogueGame();
+      }
+    });
+
+    cmdList.addEventListener('click', (e) => {
+      const item = e.target.closest('.cmd-palette-item');
+      if (!item) return;
+      const action = item.getAttribute('data-action');
+      cmdModal.style.display = 'none';
+
+      if (action === 'nav-projects') window.location.href = '#projects';
+      if (action === 'nav-about') window.location.href = '#about';
+      if (action === 'nav-contact') window.location.href = '#contact';
+      if (action === 'trigger-rogue') openRogueGame();
+      if (action === 'trigger-glitch') toggleGlitchEffect();
+    });
+
+    // 6. Glitch Madness Effect
+    let isGlitch = false;
+    function toggleGlitchEffect() {
+      isGlitch = !isGlitch;
+      document.body.classList.toggle('glitch-active', isGlitch);
+      showToast(isGlitch ? "⚡ Madness Glitch Effect ON" : "✓ Normal Mode");
+    }
+    glitchToggleBtn.addEventListener('click', toggleGlitchEffect);
+
+    // 7. 이메일 복사 기능
+    copyEmailBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('dev@example.com');
+      showToast("📋 Email copied to clipboard!");
+    });
+
+    // 8. F-3 Interactive 1980 ASCII Rogue Game Engine Implementation
+    const rogueAsciiGrid = document.getElementById('rogue-ascii-grid');
+    const rogueGoldEl = document.getElementById('rogue-gold');
+
+    let playerPos = { x: 5, y: 3 };
+    let goldCount = 100;
+
+    const mapGrid = [
+      "+-------------------------------------------------------------+",
+      "|                                                             |",
+      "|                                                             |",
+      "|                                                             |",
+      "|     +-------+                                               |",
+      "|             |     [P] Scroll (Portfolio Item)               |",
+      "|           [ D ] Dungeon Exit                                |",
+      "|             |                                               |",
+      "|             +------------ K (Kobold)                        |",
+      "|                                                             |",
+      "+-------------------------------------------------------------+"
+    ];
+
+    function renderRogueMap() {
+      let renderLines = mapGrid.map((line, y) => {
+        let chars = line.split('');
+        if (y === playerPos.y) {
+          chars[playerPos.x] = '@'; // 플레이어 위치
+        }
+        return chars.join('');
+      });
+      rogueAsciiGrid.innerText = renderLines.join('\n');
+    }
+
+    function openRogueGame() {
+      rogueModal.style.display = 'flex';
+      renderRogueMap();
+      showToast("🎮 Use Arrow keys or HJKL to explore ASCII dungeon!");
+    }
+
+    openRogueBtn.addEventListener('click', openRogueGame);
+    closeRogueBtn.addEventListener('click', () => { rogueModal.style.display = 'none'; });
+
+    // HJKL / Arrow 키 이동 조작
+    window.addEventListener('keydown', (e) => {
+      if (rogueModal.style.display !== 'flex') return;
+
+      let dx = 0, dy = 0;
+      if (e.key === 'ArrowLeft' || e.key === 'h') dx = -1;
+      if (e.key === 'ArrowRight' || e.key === 'l') dx = 1;
+      if (e.key === 'ArrowUp' || e.key === 'k') dy = -1;
+      if (e.key === 'ArrowDown' || e.key === 'j') dy = 1;
+
+      if (dx !== 0 || dy !== 0) {
+        e.preventDefault();
+        const newX = playerPos.x + dx;
+        const newY = playerPos.y + dy;
+
+        if (newY >= 1 && newY < mapGrid.length - 1 && newX >= 1 && newX < mapGrid[0].length - 1) {
+          playerPos.x = newX;
+          playerPos.y = newY;
+          goldCount += 5;
+          rogueGoldEl.innerText = goldCount;
+          renderRogueMap();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

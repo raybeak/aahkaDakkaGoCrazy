@@ -1,0 +1,90 @@
+/* ==========================================
+ * portfolio/designPortfolio.md 디자인 토큰 정의
+ * ------------------------------------------
+ * 개발자용 포트폴리오 웹사이트를 위한 글로벌 CSS 변수 및 기본 스타일
+ * ========================================== */
+
+:root {
+  /* ------------------------------------------
+   * 1. 컬러 팔레트 (Color Tokens)
+   * ------------------------------------------ */
+  /* 메인 테마 배경 및 표면 컬러 */
+  --bg-primary: #0D1117;       /* 메인 다크 캔버스 배경 */
+  --bg-surface: #161B22;       /* 카드, 모달, 서페이스 배경 */
+  --bg-elevated: #21262D;      /* 드롭다운, 태그, 호버 시 배경 */
+
+  /* 테두리 컬러 */
+  --border-default: #30363D;    /* 표준 카드의 은은한 테두리 */
+  --border-active: #58A6FF;     /* 포커스 및 강조 상태 테두리 */
+  --border-glow: rgba(0, 255, 102, 0.4); /* 호버 시 터미널 그린 글로우 */
+
+  /* 브랜드 및 포인트 컬러 */
+  --accent-primary: #00FF66;   /* 클래식 터미널 형광 그린 (Phosphor Green) */
+  --accent-secondary: #FFB800; /* 레트로 CRT 앰버 (Amber) */
+  --accent-panic: #FF3366;     /* 매드니스/글리치 크림슨 (Panic Crimson) */
+  --accent-cyan: #00F0FF;      /* 테크 시안 (Tech Cyan - Cmd+K 뱃지) */
+  --accent-violet: #A855F7;    /* 1980 Rogue 이스터에그 아이템 글로우 */
+
+  /* 텍스트 컬러 */
+  --text-primary: #F0F6FC;     /* 고대비 타이틀 및 본문 텍스트 */
+  --text-secondary: #8B949E;   /* 부제목, 메타데이터, 보조 설명 */
+  --text-muted: #484F58;       /* 플레이스홀더, 비활성 텍스트 */
+  --text-code: #00FF66;        /* 터미널 및 모노스페이스 강조 텍스트 */
+
+  /* ------------------------------------------
+   * 2. 타이포그래피 (Typography)
+   * ------------------------------------------ */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', monospace;
+  --font-retro: 'VT323', 'Press Start 2P', monospace;
+
+  /* ------------------------------------------
+   * 3. 여백 시스템 (8pt Grid Spacing System)
+   * ------------------------------------------ */
+  --space-1: 4px;   /* 마이크로 간격 (아이콘과 텍스트 사이) */
+  --space-2: 8px;   /* 뱃지 패딩, 소형 요소 간격 */
+  --space-3: 12px;  /* 버튼 패딩 (Small) */
+  --space-4: 16px;  /* 표준 버튼 및 인풋 패딩 */
+  --space-6: 24px;  /* 카드 내부 패딩 */
+  --space-8: 32px;  /* 주요 섹션 요소 간격 */
+  --space-12: 48px; /* 메인 섹션 간격 */
+
+  /* ------------------------------------------
+   * 4. 애니메이션 및 효과 (Effects & Motion)
+   * ------------------------------------------ */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-glow: 0 0 20px rgba(0, 255, 102, 0.25);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* 글로벌 기본 리셋 스타일 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 터미널 커서 깜빡임 애니메이션 키프레임 */
+@keyframes terminal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* 글리치 애니메이션 키프레임 (이스터에그 발동 시 사용) */
+@keyframes glitch-anim {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}

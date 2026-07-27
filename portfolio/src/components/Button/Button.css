@@ -1,0 +1,112 @@
+/* ==========================================
+ * Button 컴포넌트 스타일
+ * ------------------------------------------
+ * 다양한 크기(sm, md, lg) 및 변형(primary, secondary, ghost, retro) 지원
+ * ========================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  outline: none;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  user-select: none;
+}
+
+/* 크기별 스타일 (Small, Medium, Large) */
+.btn-sm {
+  height: 32px;
+  padding: 0 var(--space-3);
+  font-size: 13px;
+  border-radius: 6px;
+}
+
+.btn-md {
+  height: 40px;
+  padding: 0 var(--space-4);
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+.btn-lg {
+  height: 48px;
+  padding: 0 var(--space-6);
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+/* 1. Primary Variant (터미널 형광 그린 글로우) */
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+  border-color: var(--accent-primary);
+  font-weight: 700;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #33FF85;
+  box-shadow: 0 0 16px var(--border-glow);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* 2. Secondary Variant (글래스 아웃라인 스타일) */
+.btn-secondary {
+  background-color: rgba(22, 27, 34, 0.7);
+  border-color: var(--border-default);
+  color: var(--text-primary);
+  backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--border-active);
+  color: var(--border-active);
+  background-color: rgba(88, 166, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+/* 3. Ghost Variant (터미널 명령어 전용 버튼) */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--accent-primary);
+  background-color: rgba(0, 255, 102, 0.08);
+}
+
+/* 4. Retro Variant (1980 Rogue 이스터에그 픽셀 버튼) */
+.btn-retro {
+  background-color: #000000;
+  border: 2px solid var(--accent-primary);
+  color: var(--accent-primary);
+  font-family: var(--font-retro);
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  border-radius: 0 !important; /* 픽셀 스타일을 위한 각진 사각형 */
+}
+
+.btn-retro:hover:not(:disabled) {
+  background-color: var(--accent-primary);
+  color: #000000;
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+
+/* 비활성화 상태 스타일 */
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}

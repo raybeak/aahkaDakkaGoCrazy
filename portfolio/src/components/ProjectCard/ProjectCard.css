@@ -1,0 +1,65 @@
+/* ==========================================
+ * ProjectCard 컴포넌트 스타일
+ * ------------------------------------------
+ * 다크 서페이스 카드, 호버 시 앰비언트 그린 글로우 및 태그 리스트 스타일
+ * ========================================== */
+
+.project-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-4);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 호버 시 상단 이동 및 은은한 터미널 그린 글로우 효과 */
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 255, 102, 0.4);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 255, 102, 0.12);
+}
+
+/* 프로젝트 타이틀 영역 */
+.project-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.project-card-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* 외부 링크 아이콘 */
+.project-card-link-icon {
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.project-card:hover .project-card-link-icon {
+  color: var(--accent-primary);
+}
+
+/* 본문 요약 설명 */
+.project-card-description {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+/* 하단 기술 스택 태그 래퍼 */
+.project-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}

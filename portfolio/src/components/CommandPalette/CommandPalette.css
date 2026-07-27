@@ -1,0 +1,98 @@
+/* ==========================================
+ * CommandPalette 컴포넌트 스타일
+ * ------------------------------------------
+ * Cmd+K 핫키로 실행되는 터미널 스타일 퀵 명령어 모달
+ * ========================================== */
+
+/* 모달 백드롭 (어둡고 은은한 블러 효과) */
+.cmd-palette-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(13, 17, 23, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+}
+
+/* 모달 컨테이너 박스 */
+.cmd-palette-container {
+  width: 100%;
+  max-width: 600px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* 검색 인풋 영역 */
+.cmd-palette-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.cmd-palette-prompt {
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-weight: bold;
+}
+
+.cmd-palette-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  outline: none;
+}
+
+.cmd-palette-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* 명령어 항목 리스트 */
+.cmd-palette-list {
+  list-style: none;
+  padding: var(--space-2);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cmd-palette-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  transition: all var(--transition-fast);
+}
+
+.cmd-palette-item:hover,
+.cmd-palette-item.active {
+  background-color: var(--bg-elevated);
+  color: var(--accent-primary);
+}
+
+/* 하단 키보드 조작 안내 */
+.cmd-palette-footer {
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
