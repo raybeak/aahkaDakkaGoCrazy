@@ -3,23 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Developer Portfolio - Supabase Database & Admin Dashboard</title>
+  <title>Developer Portfolio - Clean Minimalist & Admin Dashboard</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Personal Portfolio Web featuring Supabase Database Integration, Minimalist UI, Terminal Motifs, and Admin Dashboard.">
-  <meta name="keywords" content="Portfolio, Supabase, WebAssembly, Full Stack Developer, Minimalist UI, Admin Dashboard">
+  <meta name="description" content="Personal Portfolio Web featuring Minimalist UI, Terminal Motifs, Monospace Typography, and Client-Side Admin Dashboard.">
+  <meta name="keywords" content="Portfolio, Full Stack Developer, Minimalist UI, Admin Dashboard, WebAssembly, ASCII Rogue">
 
   <!-- Google Fonts (Inter, JetBrains Mono, VT323) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=VT323&display=swap" rel="stylesheet">
   
-  <!-- Supabase JS Client SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- EmailJS Browser SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
   <!-- 디자인 토큰 및 컴포넌트 CSS 스타일시트 -->
   <link rel="stylesheet" href="./src/styles/tokens.css">
   <link rel="stylesheet" href="./src/components/TerminalCursor/TerminalCursor.css">
@@ -30,7 +24,6 @@
   <link rel="stylesheet" href="./src/components/RogueModal/RogueModal.css">
   <link rel="stylesheet" href="./src/components/Header/Header.css">
   <link rel="stylesheet" href="./src/components/Hero/Hero.css">
-  <link rel="stylesheet" href="./src/components/ContactForm/ContactForm.css">
   <link rel="stylesheet" href="./src/components/Admin/AdminLoginModal.css">
   <link rel="stylesheet" href="./src/components/Admin/AdminDashboard.css">
 
@@ -144,7 +137,7 @@
 </head>
 <body id="app-body">
 
-  <!-- Header Component -->
+  <!-- F-1 / Header Component -->
   <header class="site-header">
     <div class="site-header-container">
       <a href="#" class="site-logo">
@@ -162,15 +155,12 @@
           </ul>
         </nav>
 
-        <!-- Supabase Live Status Badge -->
-        <span class="badge badge-terminal" id="db-status-badge" style="font-size: 11px;">⚡ Supabase DB</span>
-
-        <!-- Admin Login / Dashboard Trigger -->
+        <!-- F-2 Admin Login / Dashboard Trigger -->
         <button class="btn btn-secondary btn-sm" id="admin-trigger-btn" title="Open Admin Dashboard">
           🔑 Admin Login
         </button>
 
-        <!-- Command Palette Button -->
+        <!-- F-3 Command Palette Button -->
         <button class="cmd-trigger-btn" id="open-cmd-btn" title="Quick Command Search">
           <span>Search</span>
           <span class="badge badge-hotkey">⌘K</span>
@@ -196,7 +186,7 @@
       </h1>
 
       <p class="hero-subtitle">
-        Supabase 실시간 데이터베이스 및 브라우저 캐싱과 연동된 포트폴리오입니다. Clean UI 기반에 관리자 기능과 1980 Rogue 이스터에그를 결합했습니다.
+        단 하나의 페이지에 본인의 작업물과 기술적 열정을 담아내는 포트폴리오입니다. Clean UI 기반에 관리자 페이지와 1980 Rogue 이스터에그를 결합했습니다.
       </p>
 
       <div class="hero-cta-group">
@@ -214,7 +204,7 @@
       </div>
       
       <!-- 동적 자기소개 표시 영역 -->
-      <div class="about-text" id="about-display-text">불러오는 중...</div>
+      <div class="about-text" id="about-display-text"></div>
     </section>
 
     <!-- Projects Section -->
@@ -247,7 +237,7 @@
           <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             <span class="badge badge-tech">React</span>
             <span class="badge badge-tech">Next.js</span>
-            <span class="badge badge-tech">Supabase Database</span>
+            <span class="badge badge-tech">Vite</span>
             <span class="badge badge-tech">WebAssembly</span>
           </div>
         </div>
@@ -266,45 +256,24 @@
 
     <!-- Contact Section -->
     <section id="contact" class="section" style="border-bottom: none;">
-      <h2 class="section-title">Contact</h2>
+      <h2 class="section-title">Contact & Social Links</h2>
       
-      <div class="contact-card-container">
-        <div class="contact-header">
-          <div class="contact-header-title">
-            <span>$ mail --send --to="ray.beak@proton.me"</span>
-          </div>
-          <div class="contact-header-desc">
-            채용, 협업 제안 또는 기술적 문의사항을 남겨주시면 작성해주신 이메일로 답변을 전송해 드립니다.
-          </div>
-        </div>
+      <div class="contact-card">
+        <h3 style="font-size: 24px; font-weight: 700;">Let's build something minimal & powerful.</h3>
+        <p style="color: var(--text-secondary); max-width: 500px;">
+          채용, 협업 제안 또는 기술적 교류 관련 문의는 아래 이메일이나 소셜 링크를 통해 편하게 연락주세요.
+        </p>
 
-        <form id="contact-form" class="contact-form" onsubmit="handleContactSubmit(event)">
-          <div class="form-group">
-            <label class="form-label" for="contact-name">> NAME</label>
-            <input type="text" id="contact-name" class="form-input" placeholder="홍길동 (Your Name)" required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="contact-email">> EMAIL ADDRESS</label>
-            <input type="email" id="contact-email" class="form-input" placeholder="your.email@example.com" required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="contact-message">> MESSAGE</label>
-            <textarea id="contact-message" class="form-textarea" placeholder="보내실 메시지 내용을 작성해주세요..." required></textarea>
-          </div>
-
-          <button type="submit" id="contact-submit-btn" class="contact-submit-btn">
-            <span id="btn-text">📨 SEND EMAIL</span>
+        <div class="contact-links">
+          <button class="btn btn-primary btn-md" id="copy-email-btn">
+            ✉️ dev@example.com (Copy)
           </button>
-        </form>
-
-        <div class="contact-direct-info">
-          <span>Direct Email: <a href="mailto:ray.beak@proton.me" class="contact-direct-email">ray.beak@proton.me</a></span>
-          <span>Social: 
-            <a href="https://github.com" target="_blank" rel="noopener" class="contact-direct-email">GitHub ↗</a> | 
-            <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-direct-email">LinkedIn ↗</a>
-          </span>
+          <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-secondary btn-md">
+            GitHub ↗
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener" class="btn btn-secondary btn-md">
+            LinkedIn ↗
+          </a>
         </div>
       </div>
     </section>
@@ -312,7 +281,7 @@
   </main>
 
   <footer class="footer">
-    <p>© 2026 Developer Portfolio. Powered by Supabase & Rogue (1980) Easter Eggs.</p>
+    <p>© 2026 Developer Portfolio. Built with Admin Dashboard & Rogue (1980) Easter Eggs.</p>
   </footer>
 
   <!-- Command Palette Modal -->
@@ -376,7 +345,7 @@
       <form id="admin-login-form" style="display: flex; flex-direction: column; gap: 16px;">
         <div class="admin-input-group">
           <label class="admin-label">관리자 비밀번호 입력</label>
-          <input type="password" id="admin-passcode-input" class="admin-input" placeholder="비밀번호 입력 (admin123)" autofocus>
+          <input type="password" className="admin-input" id="admin-passcode-input" class="admin-input" placeholder="비밀번호 입력 (admin123)" autofocus>
           <span class="admin-error-msg" id="admin-error-text" style="display: none;"></span>
         </div>
         <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px;">
@@ -393,7 +362,7 @@
       <div class="admin-dashboard-header">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="font-size: 18px; font-weight: bold;">⚙️ Admin Dashboard</span>
-          <span class="badge badge-terminal">Supabase Cloud Sync</span>
+          <span class="badge badge-terminal">LocalStorage Sync</span>
         </div>
         <div style="display: flex; gap: 8px;">
           <button class="btn btn-secondary btn-sm" id="admin-reset-btn">기본 데이터 복원</button>
@@ -414,7 +383,7 @@
             <textarea class="admin-input" id="admin-about-textarea" style="min-height: 180px; resize: vertical;" placeholder="포트폴리오에 보여질 소개 글을 작성하세요..."></textarea>
           </div>
           <div style="display: flex; justify-content: flex-end;">
-            <button class="btn btn-primary btn-md" type="submit">자기소개 저장 (Supabase DB 반영)</button>
+            <button class="btn btn-primary btn-md" type="submit">자기소개 저장 (LocalStorage 반영)</button>
           </div>
         </form>
 
@@ -446,7 +415,7 @@
             </div>
 
             <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
-              <button class="btn btn-primary btn-md" type="submit">프로젝트 추가하기 (Supabase DB 저장)</button>
+              <button class="btn btn-primary btn-md" type="submit">프로젝트 추가하기</button>
             </div>
           </form>
 
@@ -461,18 +430,9 @@
 
   <div class="toast" id="toast-msg"></div>
 
-  <!-- 메인 애플리케이션 데이터 & Supabase 연동 제어 스크립트 -->
+  <!-- 메인 애플리케이션 데이터 & 이벤트 제어 스크립트 -->
   <script>
-    // 1. Supabase 접속 설정 정보
-    const SUPABASE_URL = "https://cbusnkddwsnmhqfixist.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_A5S1KxO-qY5F_n4kEFsHzA_NsMoTDpO";
-
-    // Supabase 클라이언트 초기화 (CDN 연결)
-    const supabaseClient = (window.supabase && window.supabase.createClient) 
-      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) 
-      : null;
-
-    // 2. 기본 초깃값 데이터 (디비 연결 전 및 캐시용)
+    // 1. 기본 초깃값 데이터 (LocalStorage 미존재 시 사용)
     const DEFAULT_BIO = `시스템 프로그래밍과 웹 아키텍처의 경계에서 빠르고 가벼운 웹 경험을 만드는 엔지니어입니다. 
 불필요한 라이브러리 의존성을 최소화하고, 단결하면서도 강렬한 사용자 경험(UX)을 추구합니다.
 
@@ -503,11 +463,12 @@
       }
     ];
 
+    // LocalStorage 키
     const BIO_KEY = 'portfolio_bio_data_v2';
     const PROJ_KEY = 'portfolio_projects_data_v2';
     const SESSION_KEY = 'portfolio_admin_session';
 
-    // 3. 앱 상태 변수
+    // 2. 상태 관리 (State)
     let currentBio = localStorage.getItem(BIO_KEY) || DEFAULT_BIO;
     let currentProjects = JSON.parse(localStorage.getItem(PROJ_KEY) || "null") || DEFAULT_PROJECTS;
     let isAdminSession = localStorage.getItem(SESSION_KEY) === 'true';
@@ -517,7 +478,6 @@
     const projectsGrid = document.getElementById('projects-grid');
     const adminTriggerBtn = document.getElementById('admin-trigger-btn');
     const adminSessionBadge = document.getElementById('admin-session-badge');
-    const dbStatusBadge = document.getElementById('db-status-badge');
     const toastMsg = document.getElementById('toast-msg');
 
     const adminLoginModal = document.getElementById('admin-login-modal');
@@ -544,11 +504,13 @@
       setTimeout(() => { toastMsg.style.display = 'none'; }, 2500);
     }
 
-    // 4. UI 렌더링 함수
+    // 3. UI 렌더링 함수
     function renderApp() {
+      // Bio 렌더링
       aboutDisplayText.innerText = currentBio;
       adminAboutTextarea.value = currentBio;
 
+      // Projects 렌더링
       projectsGrid.innerHTML = currentProjects.map(p => `
         <div class="project-card">
           <div>
@@ -564,6 +526,7 @@
         </div>
       `).join('');
 
+      // Admin 대시보드 프로젝트 목록 렌더링
       adminProjectsList.innerHTML = currentProjects.map(p => `
         <div class="admin-project-item">
           <div>
@@ -577,6 +540,7 @@
         </div>
       `).join('');
 
+      // 세션 배지 업데이트
       adminSessionBadge.style.display = isAdminSession ? 'inline-flex' : 'none';
       adminTriggerBtn.innerText = isAdminSession ? '⚙️ Admin Dashboard' : '🔑 Admin Login';
     }
@@ -585,50 +549,13 @@
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    // 5. Supabase 데이터 원격 로딩 (Fetch Bio & Projects)
-    async function loadSupabaseData() {
-      if (!supabaseClient) {
-        dbStatusBadge.innerText = '⚠️ Local Only';
-        dbStatusBadge.style.borderColor = 'var(--accent-secondary)';
-        return;
-      }
-
-      try {
-        // 'about' 테이블 조회
-        const { data: aboutRows, error: aboutErr } = await supabaseClient
-          .from('about')
-          .select('*')
-          .eq('id', 1)
-          .single();
-
-        if (!aboutErr && aboutRows && aboutRows.content) {
-          currentBio = aboutRows.content;
-          localStorage.setItem(BIO_KEY, currentBio);
-        }
-
-        // 'projects' 테이블 조회
-        const { data: projRows, error: projErr } = await supabaseClient
-          .from('projects')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (!projErr && projRows && projRows.length > 0) {
-          currentProjects = projRows;
-          localStorage.setItem(PROJ_KEY, JSON.stringify(currentProjects));
-        }
-
-        dbStatusBadge.innerText = '⚡ Supabase Live';
-        dbStatusBadge.style.borderColor = 'var(--accent-primary)';
-        renderApp();
-      } catch (err) {
-        console.warn('Supabase DB 연결 실패, 캐시된 로컬 데이터를 사용합니다:', err);
-        dbStatusBadge.innerText = '⚡ Supabase Ready';
-      }
-    }
-
-    // 6. Admin 로그인 처리
+    // 4. Admin 접속 & 로그인 처리
     adminTriggerBtn.addEventListener('click', () => {
-      if (isAdminSession) openAdminDashboard(); else openAdminLogin();
+      if (isAdminSession) {
+        openAdminDashboard();
+      } else {
+        openAdminLogin();
+      }
     });
 
     function openAdminLogin() {
@@ -683,29 +610,16 @@
       adminProjectsPanelEl.style.display = 'flex';
     });
 
-    // 7. Supabase DB 데이터 변경 핸들러
-    adminAboutForm.addEventListener('submit', async (e) => {
+    // 5. Admin 데이터 수정 이벤트 (Bio 및 Projects)
+    adminAboutForm.addEventListener('submit', (e) => {
       e.preventDefault();
       currentBio = adminAboutTextarea.value;
       localStorage.setItem(BIO_KEY, currentBio);
       renderApp();
-
-      // Supabase 'about' 테이블 저장
-      if (supabaseClient) {
-        try {
-          await supabaseClient
-            .from('about')
-            .upsert({ id: 1, content: currentBio, updated_at: new Date().toISOString() });
-          showToast("⚡ Supabase DB에 자기소개가 성공적으로 저장되었습니다!");
-        } catch (err) {
-          showToast("✓ LocalStorage에 자기소개가 저장되었습니다.");
-        }
-      } else {
-        showToast("✓ LocalStorage에 자기소개가 저장되었습니다.");
-      }
+      showToast("✓ 자기소개 내용이 LocalStorage에 저장되었습니다.");
     });
 
-    adminAddProjectForm.addEventListener('submit', async (e) => {
+    adminAddProjectForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const title = document.getElementById('proj-title-input').value.trim();
       const desc = document.getElementById('proj-desc-input').value.trim();
@@ -732,40 +646,18 @@
       document.getElementById('proj-link-input').value = '';
 
       renderApp();
-
-      // Supabase 'projects' 테이블 추가
-      if (supabaseClient) {
-        try {
-          await supabaseClient.from('projects').insert([newProj]);
-          showToast("⚡ Supabase DB에 신규 작업물이 추가되었습니다!");
-        } catch (err) {
-          showToast("✓ 작업물이 성공적으로 추가되었습니다!");
-        }
-      } else {
-        showToast("✓ 작업물이 성공적으로 추가되었습니다!");
-      }
+      showToast("✓ 신규 작업물이 성공적으로 추가되었습니다!");
     });
 
-    window.deleteProject = async function(id) {
+    window.deleteProject = function(id) {
       if (!confirm("해당 작업물을 삭제하시겠습니까?")) return;
       currentProjects = currentProjects.filter(p => p.id !== id);
       localStorage.setItem(PROJ_KEY, JSON.stringify(currentProjects));
       renderApp();
-
-      // Supabase 'projects' 테이블 삭제
-      if (supabaseClient) {
-        try {
-          await supabaseClient.from('projects').delete().eq('id', id);
-          showToast("⚡ Supabase DB에서 작업물이 삭제되었습니다.");
-        } catch (err) {
-          showToast("🗑️ 작업물이 삭제되었습니다.");
-        }
-      } else {
-        showToast("🗑️ 작업물이 삭제되었습니다.");
-      }
+      showToast("🗑️ 작업물이 삭제되었습니다.");
     };
 
-    adminResetBtn.addEventListener('click', async () => {
+    adminResetBtn.addEventListener('click', () => {
       if (!confirm("모든 데이터를 초기 기본값으로 복원하시겠습니까?")) return;
       currentBio = DEFAULT_BIO;
       currentProjects = DEFAULT_PROJECTS;
@@ -775,7 +667,7 @@
       showToast("↺ 초기 데이터로 복원되었습니다.");
     });
 
-    // 8. Command Palette & Rogue 1980 Easter Egg
+    // 6. Command Palette & Rogue 1980 Easter Egg
     const cmdModal = document.getElementById('cmd-modal');
     const cmdInput = document.getElementById('cmd-input');
     const openCmdBtn = document.getElementById('open-cmd-btn');
@@ -859,65 +751,8 @@
     openRogueBtn.addEventListener('click', openRogueGame);
     closeRogueBtn.addEventListener('click', () => { rogueModal.style.display = 'none'; });
 
-    // 8.5. EmailJS SDK Initialization & Contact Form Handler
-    if (window.emailjs) {
-      try {
-        emailjs.init("zrK2yN-1TYiiAA_pv");
-      } catch (err) {
-        console.warn("EmailJS Init Warning:", err);
-      }
-    }
-
-    async function handleContactSubmit(event) {
-      event.preventDefault();
-      const nameInput = document.getElementById('contact-name');
-      const emailInput = document.getElementById('contact-email');
-      const messageInput = document.getElementById('contact-message');
-      const submitBtn = document.getElementById('contact-submit-btn');
-      const btnText = document.getElementById('btn-text');
-
-      const name = nameInput.value.trim();
-      const from_email = emailInput.value.trim();
-      const message = messageInput.value.trim();
-
-      if (!name || !from_email || !message) {
-        showToast("❌ 모든 입력 항목을 작성해주세요.");
-        return;
-      }
-
-      submitBtn.disabled = true;
-      btnText.textContent = "⏳ TRANSMITTING...";
-
-      const templateParams = {
-        from_name: name,
-        title: "포트폴리오 문의",
-        name: name,
-        time: new Date().toISOString(),
-        message: message,
-        from_email: from_email
-      };
-
-      try {
-        if (!window.emailjs) {
-          throw new Error("EmailJS SDK가 연결되지 않았습니다.");
-        }
-        await emailjs.send("service_7qxoyeq", "template_wwmx8wv", templateParams);
-        showToast("✓ 이메일이 성공적으로 전송되었습니다!");
-        nameInput.value = "";
-        emailInput.value = "";
-        messageInput.value = "";
-      } catch (error) {
-        console.error("EmailJS Transmission Error:", error);
-        showToast("❌ 이메일 전송 실패: " + (error.text || error.message || "알 수 없는 오류"));
-      } finally {
-        submitBtn.disabled = false;
-        btnText.textContent = "📨 SEND EMAIL";
-      }
-    }
-
-    // 9. 앱 초기화 렌더링 & Supabase 원격 로딩
+    // 앱 초기화 렌더링
     renderApp();
-    loadSupabaseData();
   </script>
 </body>
 </html>
