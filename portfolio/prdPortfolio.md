@@ -33,7 +33,20 @@
 - **About & Work Description**: 본인 소개 및 주요 경력 요약 (소유자 편집 전용 섹션).
 - **Projects & Works**: 주요 프로젝트 카드 목록; GitHub Repository 및 Live Demo Link 연결.
 - **Interests & Tech Stack**: 관심 기술, 개인 프로젝트, 취향 관련 키워드 및 태그.
-- **Contact**: Email 및 Social Media Link (GitHub, LinkedIn 등).
+- **Contact**: EmailJS 기반 실시간 이메일 전송 연락폼(이름, 이메일, 메시지) 및 Social Media Link (GitHub, LinkedIn 등).
+
+### F-4. EmailJS-Powered Interactive Contact Form
+
+- **Requirement**: 방문자가 이름(Name), 이메일 주소(Email), 메시지(Message)를 작성하고 전송 버튼을 클릭하면 작성자 수신 이메일(`ray.beak@proton.me`)로 즉시 이메일이 발송되어야 함.
+- **EmailJS Configuration & Payload**:
+  - **Service ID**: `service_7qxoyeq`
+  - **Template ID**: `template_wwmx8wv`
+  - **Public API Key**: `zrK2yN-1TYiiAA_pv`
+  - **Payload Structure**: `from_name`, `title`, `name`, `time` (Zulu time), `message`, `from_email`.
+- **Form UX & Validation**:
+  - 이름, 이메일, 메시지 필수 입력 검증.
+  - 전송 중 로딩 애니메이션 및 버튼 비활성화.
+  - 전송 성공/실패 시 테두리 가이드 및 Toast UI 알림 메시지 출력.
 
 ### F-2. Client-Side Admin Page & LocalStorage Persistence
 

@@ -174,6 +174,27 @@
 
 ---
 
+### 5.5 Interactive Contact Form Component
+
+- **Form Container**:
+  - **Background**: `var(--bg-surface)` (`#161B22`)
+  - **Border**: `1px solid var(--border-default)` (`#30363D`), Radius `12px`
+  - **Padding**: `var(--space-8)` (32px)
+  - **Layout**: Grid / Flex column with `gap: var(--space-4)`
+- **Input & Textarea Elements**:
+  - **Font**: Monospace (`var(--font-mono)`) for input fields and labels (`> NAME:`, `> EMAIL:`, `> MESSAGE:`)
+  - **Background**: `var(--bg-primary)` (`#0D1117`)
+  - **Border**: `1px solid var(--border-default)` (`#30363D`), Radius `8px`
+  - **Text**: `var(--text-primary)` (`#F0F6FC`), Caret color `var(--accent-primary)` (`#00FF66`)
+  - **Focus State**: `border-color: var(--accent-primary)`, `box-shadow: 0 0 12px rgba(0, 255, 102, 0.25)`
+- **Submit Button & Loading State**:
+  - **Default**: Terminal Glow Primary Button (`#00FF66` background with dark text)
+  - **Loading State**: Monospace text `[ TRANSMITTING... ]` with blinking cursor & disabled pointer
+  - **Success State**: Toast notice in `--accent-primary` (`#00FF66`) with checkmark `✓ Email Transmitted Successfully!`
+  - **Error State**: Toast notice in `--accent-panic` (`#FF3366`) with warning `❌ Transmission Failed!`
+
+---
+
 ## 6. Micro-Animations & Madness Effects
 
 ### 6.1 Terminal Cursor Blink Keyframe
